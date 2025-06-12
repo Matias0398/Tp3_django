@@ -3,17 +3,28 @@
 {% block title %}Inicio{% endblock %}
 
 {% block content %}
-<h2>Productos Disponibles</h2>
-
-{% if productos %}
-    <ul class="list-group">
-        {% for producto in productos %}
-            <li class="list-group-item">
-                {{ producto.nombre }} - ${{ producto.precio }} - Talle: {{ producto.talle.nombre }}
-            </li>
-        {% endfor %}
-    </ul>
-{% else %}
-    <p>No hay productos cargados.</p>
-{% endif %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h2 class="mb-4 text-center">Productos Disponibles</h2>
+            {% if productos %}
+                <ul class="list-group shadow">
+                    {% for producto in productos %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <strong>{{ producto.nombre }}</strong>
+                                <span class="badge bg-secondary ms-2">Talle: {{ producto.talle.nombre }}</span>
+                            </div>
+                            <span class="badge bg-primary fs-6">${{ producto.precio }}</span>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <div class="alert alert-info mt-4" role="alert">
+                    No hay productos cargados.
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
 {% endblock %}
