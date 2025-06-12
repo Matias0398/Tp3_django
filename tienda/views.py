@@ -6,7 +6,9 @@ from .forms import ProductoForm, ClienteForm, BuscarProductoForm
 from django.contrib import messages
 
 def home(request):
-    return render(request, 'base.html')
+    productos = Producto.objects.all()
+    contexto = {"productos": productos}
+    return render(request, "home.html", contexto)
 
 def agregar_producto(request):
     if request.method == 'POST':

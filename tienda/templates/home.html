@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}Inicio{% endblock %}
+
+{% block content %}
+<h2>Productos Disponibles</h2>
+
+{% if productos %}
+    <ul class="list-group">
+        {% for producto in productos %}
+            <li class="list-group-item">
+                {{ producto.nombre }} - ${{ producto.precio }} - Talle: {{ producto.talle.nombre }}
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No hay productos cargados.</p>
+{% endif %}
+{% endblock %}
