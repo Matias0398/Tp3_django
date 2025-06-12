@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 
 # Create your views here.
 from .models import Producto
-from .forms import ProductoForm, ClienteForm, BuscarProductoForm
+from .forms import ProductoForm, ClienteForm
 from django.contrib import messages
 
 def home(request):
@@ -43,14 +43,3 @@ def agregar_cliente(request):
         form = ClienteForm()
 
     return render(request, 'agregar_cliente.html', {'form': form})
-
-def buscar_producto(request):
-    productos = []
-    if request.method == 'GET':
-        form = BuscarProductoForm(request.GET)
-        if form.is_valid():
-            nombre = form.cleaned_data['nombre']
-            productos = Producto.objects.filter(nombre__icontains=nombre)
-    else:
-        form = BuscarProductoForm()
-    return render(request, 'buscar_producto.html', {'form': form, 'productos': productos})
