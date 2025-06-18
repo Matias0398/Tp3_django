@@ -20,6 +20,8 @@ class Cliente(models.Model):
     nombre = models.CharField(max_length=100)
     email = models.EmailField()
     telefono = models.CharField(max_length=15)
+    password = models.CharField(max_length=100)
+    password2 = models.CharField(max_length=100)
 
     def __str__(self):
         return self.nombre

@@ -1,45 +1,69 @@
 from django.shortcuts import render, redirect
-
-# Create your views here.
-from .models import Producto
-from .forms import ProductoForm, ClienteForm
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
+from django.urls import reverse_lazy
+from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
+from .models import Producto, Cliente
+from .forms import ProductoForm, ClienteForm
 
-def home(request):
-    productos = Producto.objects.all()
-    contexto = {"productos": productos}
-    return render(request, "home.html", contexto)
+# Vistas para Producto
+class ProductoListView(ListView):
+    model = Producto
+    template_name = 'home.html'
+    context_object_name = 'productos'
 
-def agregar_producto(request):
-    if request.method == 'POST':
-        form = ProductoForm(request.POST)
-        try:
-            if form.is_valid():
-                form.save()
-                messages.success(request, "Producto guardado correctamente.")
-                return redirect('home')
-            else:
-                messages.warning(request, "Formulario inválido. Revisá los datos ingresados.")
-        except Exception as e:
-            messages.error(request, f"Error inesperado al guardar el producto: {str(e)}")
-    else:
-        form = ProductoForm()
-    
-    return render(request, 'agregar_producto.html', {'form': form})
+class ProductoCreateView(SuccessMessageMixin, CreateView):
+    model = Producto
+    form_class = ProductoForm
+    template_name = 'producto/producto_form.html'
+    success_url = reverse_lazy('producto_list')
+    success_message = "Producto creado correctamente."
 
-def agregar_cliente(request):
-    if request.method == 'POST':
-        form = ClienteForm(request.POST)
-        try:
-            if form.is_valid():
-                form.save()
-                messages.success(request, "Cliente agregado exitosamente.")
-                return redirect('home')
-            else:
-                messages.error(request, "Formulario inválido. Verificá los datos ingresados.")
-        except Exception as e:
-            messages.error(request, f"Ocurrió un error al guardar el cliente: {str(e)}")
-    else:
-        form = ClienteForm()
+class ProductoUpdateView(SuccessMessageMixin, UpdateView):
+    model = Producto
+    form_class = ProductoForm
+    template_name = 'producto/producto_form.html'
+    success_url = reverse_lazy('producto_list')
+    success_message = "Producto actualizado correctamente."
 
-    return render(request, 'agregar_cliente.html', {'form': form})
+class ProductoDeleteView(SuccessMessageMixin, DeleteView):
+    model = Producto
+    template_name = 'producto/producto_confirm_delete.html'
+    success_url = reverse_lazy('producto_list')
+    success_message = "Producto eliminado correctamente."
+
+class ProductoDetailView(DetailView):
+    model = Producto
+    template_name = 'producto/producto_detail.html'
+    context_object_name = 'producto'
+
+# Vistas para Cliente
+class ClienteListView(ListView):
+    model = Cliente
+    template_name = 'cliente/cliente_list.html'
+    context_object_name = 'clientes'
+
+class ClienteCreateView(SuccessMessageMixin, CreateView):
+    model = Cliente
+    form_class = ClienteForm
+    template_name = 'cliente/cliente_form.html'
+    success_url = reverse_lazy('cliente_list')
+    success_message = "Cliente creado exitosamente."
+
+class ClienteUpdateView(SuccessMessageMixin, UpdateView):
+    model = Cliente
+    form_class = ClienteForm
+    template_name = 'cliente/cliente_form.html'
+    success_url = reverse_lazy('cliente_list')
+    success_message = "Cliente actualizado exitosamente."
+
+class ClienteDeleteView(SuccessMessageMixin, DeleteView):
+    model = Cliente
+    template_name = 'cliente/cliente_confirm_delete.html'
+    success_url = reverse_lazy('cliente_list')
+    success_message = "Cliente eliminado exitosamente."
+
+class ClienteDetailView(DetailView):
+    model = Cliente
+    template_name = 'cliente/cliente_detail.html'
+    context_object_name = 'cliente'
