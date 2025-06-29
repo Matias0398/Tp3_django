@@ -15,4 +15,13 @@ urlpatterns = [
     path('cliente/<int:pk>/', views.ClienteDetailView.as_view(), name='cliente_detail'),
     path('cliente/<int:pk>/editar/', views.ClienteUpdateView.as_view(), name='cliente_update'),
     path('cliente/<int:pk>/eliminar/', views.ClienteDeleteView.as_view(), name='cliente_delete'),
+
+    # URL para la vista about
+    path('about/', views.about, name='about'),
+
+    # URL para la vista de login
+    path('login/', views.login_view, name='login'),
+
+    # URL para la vista de logout
+    path('logout/', views.logout_view, name='logout'),
 ]

@@ -25,6 +25,7 @@
                         <a href="{% url 'producto_list' %}" class="btn btn-secondary">
                             <i class="fas fa-arrow-left me-2"></i>Volver
                         </a>
+                        {% if es_admin %}
                         <div>
                             <a href="{% url 'producto_update' producto.pk %}" class="btn btn-primary me-2">
                                 <i class="fas fa-edit me-2"></i>Editar
@@ -33,6 +34,7 @@
                                 <i class="fas fa-trash me-2"></i>Eliminar
                             </a>
                         </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
